@@ -13,6 +13,12 @@ export type Question = {
     question: string,
     type: string
 }
+export type AnswerObject = {
+    question: string;
+    answer: string;
+    correct: boolean;
+    correctAnswer: string
+}
 export type QuestionState = Question & {answers: string[]};
   
 export const fetchQuestions = async(amount: number, difficulty: Difficulty) => {

@@ -1,10 +1,12 @@
 import React from 'react';
+import { AnswerObject } from "../API";
+import { Wrapper, ButtonWrapper} from './QuestionCard.style';
 
 type Props = {
     question: string;
     answers: string[];
-    callback: any;
-    userAnswer: any;
+    callback: (e: React.MouseEvent<HTMLButtonElement>) => void;
+    userAnswer: AnswerObject | undefined;
     questionNumber: number;
     totalQuestions: number
 }
@@ -18,7 +20,7 @@ const QuestionCard: React.FC<Props> = ({
     totalQuestions})  => {
 
     return(
-        <div>
+        <Wrapper>
             <p className="number">
                 Question: {questionNumber} / {totalQuestions}
             </p>
@@ -27,14 +29,22 @@ const QuestionCard: React.FC<Props> = ({
                 {
                     answers.map((answer, i) => {
                         return (
-                            <button key={i} disabled={userAnswer} onClick={callback}>
-                                <span dangerouslySetInnerHTML={{ __html: answer}} / >
-                            </button>
+                            <ButtonWrapper 
+                                key={answer}
+                                correct={ userAnswer?.correctAnswer === answer }
+                                userClicked={userAnswer?.answer === answer}
+                                
+                            >
+                                <button key={i} disabled={userAnswer ? true : false} value={answer} onClick={callback}>
+                                    <span dangerouslySetInnerHTML={{ __html: answer}} / >
+                                </button>
+                            </ButtonWrapper>
+                            
                         )
                     })
                 }
             </div>
-        </div>
+        </Wrapper>
     )
 }
 
